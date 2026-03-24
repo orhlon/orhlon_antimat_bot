@@ -2,7 +2,9 @@
 import csv
 import telebot
 from config import TOKEN
-TRUSTED_GROUP=['orhlon_antimat_group', 87803135]
+
+
+TRUSTED_GROUP=['orhlon_antimat_group',]
 TRUSTED_PEOPLE=['orhlon']
 bot = telebot.TeleBot(TOKEN)
 print('bot accepted the token')
@@ -45,7 +47,7 @@ def contains_curse_words(s, the_set):
                 temp_str=''
             ctr +=1
         return listik
-    unfit_chars=' ,./)(\\@?<>$!#%^&*-_=+`|:;\'][}{\1234567890"'
+    unfit_chars=' ,./)(\\@?<>$!#%^&*-_=+`|:;\'][}{\124567890"'
     result_string=''
     orig_str=s+' '
     s=s.lower()+' '
@@ -76,11 +78,13 @@ def watch_messages(message: telebot.types.Message):
         bot.reply_to(message, 'сообщение ' + WHO + ' удалено by orhlon_antimat_bot')
         bot.delete_message(CHATID, POSTID)
     else:
-        pass    if POSTTEXT =='ligma_help':
+        pass
+    if POSTTEXT =='ligma_help':
         bot.reply_to(message, 'Доступные команды:\nligma_forbid "слово"\nligma_allow "слово"\nligma_list "п"')
     if CHATNAME in TRUSTED_GROUP or CHATID in TRUSTED_GROUP:
-    #ПОКАЗАТЬ КОМАНДЫ
-    #ДОБВАИТЬ СЛОВО В СПИСОК
+
+#ПОКАЗАТЬ КОМАНДЫ
+#ДОБВАИТЬ СЛОВО В СПИСОК
         if POSTTEXT[:13] =='ligma_forbid ':
             toadd=POSTTEXT[13:]
             toadd=toadd.lower()
@@ -94,7 +98,7 @@ def watch_messages(message: telebot.types.Message):
                     f.close()
             else:
                 bot.reply_to(message, 'В слове недопустимые знаки или пробелы')
-    #УДАЛИТЬ СЛОВО ИЗ СПИСКА
+#УДАЛИТЬ СЛОВО ИЗ СПИСКА
         if POSTTEXT[:12] =='ligma_allow ':
             listik=[]
             todelete=POSTTEXT[12:]
@@ -113,12 +117,15 @@ def watch_messages(message: telebot.types.Message):
                 f.close()
                 print('УДАЛЕНО ИЗ ФАЙЛА')
                     
+
                 bot.reply_to(message, 'Слово удалено из чёрного списка')
-    #ПОКАЗАТЬ ЧЕРНЫЙ СПИСОК
+#ПОКАЗАТЬ ЧЕРНЫЙ СПИСОК
         if POSTTEXT[:10] =='ligma_list':
+
             if POSTTEXT=='ligma_list':
                 bot.reply_to(message, 'Нужно добавить букву для поиска')
             else:
+
                 toshow=POSTTEXT[11:]
                 toshow=toshow.lower()
                 if len(toshow)==1:
@@ -126,12 +133,18 @@ def watch_messages(message: telebot.types.Message):
                     for i in the_set:
                         if i[0]==toshow:
                             toshow_str+=i
-                            toshow_str+=', '                    bot.reply_to(message, toshow_str)
+                            toshow_str+=', '
+                    bot.reply_to(message, toshow_str)
+
                 else:
                     bot.reply_to(message, 'Должна быть лишь одна буква')
-    #ПРИВЕТСТВИЕ
+#ПРИВЕТСТВИЕ
         if POSTTEXT.lower() =='/start':
-            bot.reply_to(message, '@orhlon_antimat_bot - это уникальный "антимат" бот с изменяемым чёрным списком. Любой пользователь может добавлять и убирать слова из списка. Для инструкции напишите /help.')    #ХЕЛП
+            bot.reply_to(message, '@orhlon_antimat_bot - это уникальный "антимат" бот с изменяемым чёрным списком. Любой пользователь может добавлять и убирать слова из списка. Для инструкции напишите /help.')
+
+#ХЕЛП
         if POSTTEXT.lower() =='/help':
             bot.reply_to(message, 'Для фильтрации сообщений групп, добавьте бота в администраторы своей группы с правами на управление сообщениями.\n\nДля того, чтобы изменить базу черного списка, необходимо вводить команды в группе @orhlon_antimat_group.\n\nДоступные команды:\nligma_forbid слово (добавить слово в чёрный список)\nligma_allow слово (удалить слово из черного списка)\nligma_list п (отобразить слова черного списка на данную букву)')
-bot.infinity_polling()
+
+
+bot.infinity_polling()

@@ -1,0 +1,5 @@
+This Telegram bot is buit to delete messages with certain words from Telegram groups.
+The words are defined in a globally mutable list of words,
+which can be modified by any Telegram bot user with the help of some commands.
+Add the bot to your group, give him power to read and delete messages, enjoy.
+For further information, start a chat with @orhlon_antimat_bot in Telegram and type /start.
