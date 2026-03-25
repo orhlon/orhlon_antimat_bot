@@ -59,7 +59,7 @@ def contains_curse_words(s, the_set):
                 temp_str=''
             ctr +=1
         return listik
-    unfit_chars=' ,./)(\\@?<>$!#%^&*-_=+`|:;\'][}{\124567890"'
+    unfit_chars=' ,./)(\\@?<>$!#%^&*-_=+`|:;\'][}{124567890"'
     result_string=''
     orig_str=s+' '
     s=s.lower()+' '
@@ -97,7 +97,7 @@ def watch_messages(message: telebot.types.Message):
 
     if POSTTEXT =='ligma_help':
         bot.reply_to(message, 'Доступные команды:\nligma_forbid "слово"\nligma_allow "слово"\nligma_list "п"')
-    if Ture: #CHATNAME in TRUSTED_GROUP or CHATID in TRUSTED_GROUP:
+    if True: #CHATNAME in TRUSTED_GROUP or CHATID in TRUSTED_GROUP:
 
 #ПОКАЗАТЬ КОМАНДЫ
 #ДОБВАИТЬ СЛОВО В СПИСОК
