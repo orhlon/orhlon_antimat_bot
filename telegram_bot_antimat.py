@@ -20,11 +20,23 @@ with open(csv_file, 'r', encoding='utf-8') as f:
         the_set.add(row[0])
 f.close()
 
+#ПРИМИВНАЯ ПРОВЕРКА НА ОСНОВЫ
+def primitive_check(s):
+    pristavki = ['с', 'вы', 'на', 'под', 'по', 'о', 'от', 'у', 'долбо']
+    korni = ['хуй', 'хуе', 'хуё', 'хуи', 'хул', 'пизд', 'пезд', 'пёзд', 'сук', 'суч', 'ебл', 'еба', 'ебу', 'бляд', 'блят', 'пидр', 'пидор', 'шлюх', 'шлюш']
+    #s = "Ах вы, ебанные пидорасы! Выблядки, блять! Ебать вас, шлюхи пиздохуевы, хуями, да до одолбоебения! Хулиганы!"
+    s = s.lower()
+    splited = s.split()
+    for i in splited:
+        for a in korni:
+            if a in i:
+                return True
+    return False
 
 #ПРОВЕРИТЬ НА НАЛИЧИЕ ЛИШНЕГО
 def is_it_fit_for_set(s):
     s=s.lower()
-    unfit_chars=' ,./)(\\@?<>$!#%^&*-_=+`|:;\'][}{\1234567890"'
+    unfit_chars=' ,./)(\\@?<>$!#%^&*-_=+`|:;\'][}{1234567890"'
     for i in s:
         if i in unfit_chars:
             return False
@@ -59,7 +71,7 @@ def contains_curse_words(s, the_set):
         if s_list[ctr] in the_set:
             orig_str_list[ctr]='(beep)'
         ctr+=1
-    
+
     for i in orig_str_list:
         result_string += i
     return result_string
@@ -71,17 +83,21 @@ def watch_messages(message: telebot.types.Message):
     POSTID = message.id
     POSTTEXT=message.text
     CHATNAME=message.chat.title
+    ISBOT=message.from_user.is_bot
     WHO=message.from_user.username
-    print('message: ', WHO, POSTTEXT, CHATNAME)
-    filtered = contains_curse_words(POSTTEXT, the_set)
-    if POSTTEXT+' ' != filtered:
+    print('message: ', POSTTEXT, CHATNAME, WHO)
+    if primitive_check(POSTTEXT):
         bot.reply_to(message, 'сообщение ' + WHO + ' удалено by orhlon_antimat_bot')
         bot.delete_message(CHATID, POSTID)
     else:
-        pass
+        filtered = contains_curse_words(POSTTEXT, the_set)
+        if POSTTEXT+' ' != filtered:
+            bot.reply_to(message, 'сообщение ' + WHO + ' удалено by orhlon_antimat_bot')
+            bot.delete_message(CHATID, POSTID)
+
     if POSTTEXT =='ligma_help':
         bot.reply_to(message, 'Доступные команды:\nligma_forbid "слово"\nligma_allow "слово"\nligma_list "п"')
-    if CHATNAME in TRUSTED_GROUP or CHATID in TRUSTED_GROUP:
+    if Ture: #CHATNAME in TRUSTED_GROUP or CHATID in TRUSTED_GROUP:
 
 #ПОКАЗАТЬ КОМАНДЫ
 #ДОБВАИТЬ СЛОВО В СПИСОК
@@ -116,7 +132,7 @@ def watch_messages(message: telebot.types.Message):
                     f.writelines(listik)
                 f.close()
                 print('УДАЛЕНО ИЗ ФАЙЛА')
-                    
+
 
                 bot.reply_to(message, 'Слово удалено из чёрного списка')
 #ПОКАЗАТЬ ЧЕРНЫЙ СПИСОК
